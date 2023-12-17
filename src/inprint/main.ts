@@ -1,5 +1,5 @@
 /**
- *
+ * Не использовать этот файл пока что
  */
 export function inprint(paramsObject: any) {
     //    switch (paramsObject?.t) {
