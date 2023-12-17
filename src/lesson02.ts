@@ -1,4 +1,4 @@
-import {Vector2D, GameObject, MyDocument} from "./types.js"
+import type {Vector2D, GameObject, MyDocument} from "./types.js"
 
 function main(document: MyDocument) {
 
