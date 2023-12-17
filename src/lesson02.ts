@@ -1,4 +1,6 @@
 import type {Vector2D, GameObject, MyDocument} from "./types.js"
+const MAX_X = 140;
+const MAX_Y = 30;
 
 function main(document: MyDocument) {
 
@@ -44,13 +46,13 @@ function main(document: MyDocument) {
 		// Оператор ++ означает "добавить 1"
 		// Синтаксис: for(начальное значение итератора; условие завершения; изменение итератора) - итератор пройдет от начального значения до условия завершения.
 		// После каждой итерации будет осуществлено изменение итератора
-		for (let y = 0; y < 30; y++) {
+		for (let y = 0; y <= MAX_Y; y++) {
 			// Создаем пустой символов строки
 			let lineItems = []
 
 			// Цикл по оси x от 0 до 140
 			// Оператор ++ означает "добавить 1"
-			for (let x = 0; x < 140; x++) {
+			for (let x = 0; x <= MAX_X; x++) {
 				// Создаем пустую переменную для хранения текущего объекта
 				// То есть того, который находится по координатам x, y
 				let currentObject;
@@ -119,14 +121,38 @@ function main(document: MyDocument) {
 		for (let gameObjectId in document.gameObjects) {
 			// Константа, которая хранит рассматриваемый объект. Константа это то же что и переменная, но ее нельзя изменить - у нее всегда только изначальное значение.
 			const gameObject = document.gameObjects[gameObjectId];
+			if(!gameObject.v) {
+				gameObject.v = {x:0,y:0}
+			}
 
-			// Если у объекта есть скорость v
-			if (gameObject.v) {
-				// Тогда берем компоненту скорости v.x и прибавляем ее к полю x
-				gameObject.x = gameObject.x + gameObject.v.x;
+			// Тогда берем компоненту скорости v.x и прибавляем ее к полю x
+			gameObject.x = gameObject.x + gameObject.v.x;
 
-				// А компоненту скорости v.y прибавляем к полю y
-				gameObject.y = gameObject.y + gameObject.v.y;
+			// А компоненту скорости v.y прибавляем к полю y
+			gameObject.y = gameObject.y + gameObject.v.y;
+
+			// Логика отражения от левой границы поля
+			if(gameObject.x<0) {
+				gameObject.x = -gameObject.x;
+				gameObject.v.x = -gameObject.v.x;
+			}
+
+			// Логика отражения от верхней границы поля
+			if(gameObject.y<0) {
+				gameObject.y = -gameObject.y;
+				gameObject.v.y = -gameObject.v.y;
+			}
+
+			// Логика отражения от правой границы поля
+			if(gameObject.x>MAX_X) {
+				gameObject.x = 2*MAX_X - gameObject.x;
+				gameObject.v.x = -gameObject.v.x;
+			}
+
+			// Логика отражения от правой границы поля
+			if(gameObject.y>MAX_Y) {
+				gameObject.y = 2*MAX_Y - gameObject.y;
+				gameObject.v.y = -gameObject.v.y;
 			}
 		}
 	}

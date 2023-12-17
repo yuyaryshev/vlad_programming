@@ -1,3 +1,5 @@
+export {};
+
 console.log('Привет ')
 
 let nsa = 120
